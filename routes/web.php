@@ -43,4 +43,6 @@ Route::get('/client',[ClientController::class,'index']);
 
 Route::post('/clientlogin',[ClientController::class,'login'])->name('clogin');
 
-Route::get('/clienthome',[ClientController::class,'home']);
+Route::get('/clienthome',[ClientController::class,'home'])->name('clienthome');
+
+Route::post('/clientaccount',[ClientController::class,'accountInfo'])->name('clientaccount');

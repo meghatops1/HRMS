@@ -67,6 +67,10 @@
             salary=JSON.parse(data);
             str=`<p>Salary = ${salary.salary}</p>
             <p>Salary = ${salary.description}</p>
+            <p>Account number = ${salary.accno}</p>
+            <p>IFSC = ${salary.ifsccode}</p>
+            <p>Branch Name = ${salary.branchname}</p>
+            <p>Account Type = ${salary.atype}</p>
             `;
             document.getElementById('center').innerHTML=str;
           }

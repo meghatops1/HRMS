@@ -91,7 +91,37 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        print_r($request->all());
+       
+        if($request->file('img')){
+            $file= $request->file('img');
+            $filename=$file->getClientOriginalName();
+            $file->move(public_path('empimages'),$filename);
+        
+            $imagesdata=DB::table('empimg')->where(['empid'=>$request->empid])->first();
+            print_r($imagesdata);
+            if($imagesdata){
+                DB::table('empimg')->where([ 'empid'=>$request->empid])->update([
+                    "imgname"=>$filename,
+                ]);
+            }
+            else{
+                echo "here";
+            DB::table('empimg')->insert([
+                'empid'=>$request->empid,
+                "imgname"=>$filename,
+            ]);
+            }
+        }
+        
+        $array=[
+            'empName'=>$request->empname,
+            'email'=>$request->empemail,
+            'password'=>$request->pass,
+            'username'=>$request->username,
+        ];
+        
+        DB::table('employees')->where(["empId"=>$request->empid])->update($array);
+        return redirect('/clienthome');
     }
 
     /**
@@ -124,7 +154,9 @@ class EmployeeController extends Controller
         
         $arr=explode("_",$request->id);
        
-       $salary=DB::table('salary')->where(['empId'=>$arr[1]])->first();
+       $salary=DB::table('salary')
+       ->join('account','salary.empid',"=","account.empid")
+       ->where(['salary.empid'=>$arr[1]])->first();
        echo  json_encode($salary);
         
     }

@@ -24,6 +24,21 @@ class ClientController extends Controller
     }
     public function home(Request $request){
         $emp=$request->session()->get('emp');
-        return view("Client.home",['emp'=>$emp]);
+        $emp=DB::table('employees')->where(['empId'=>$emp->empId])->first();
+        $img= DB::table('empimg')->where(["empid"=>$emp->empId])->first();
+        return view("Client.home",['emp'=>$emp,'image'=>$img]);
+    }
+
+    function accountInfo(Request $request){
+        $insertArray=[
+            "empid"=>$request->empid,
+            "accno"=>$request->accno,
+            "ifsccode"=>$request->ifsccode,
+            "branchname"=>$request->branchname,
+            "aname"=>$request->aname,
+            "atype"=>$request->atype
+        ];
+        DB::table('account')->insert($insertArray);
+        return redirect('/clienthome');
     }
 }
