@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('register',[App\Http\Controllers\ApiRegistration::class,'registration']);
+
+Route::middleware('auth:api')->group(function(){
+    Route::get('testapiroute',function(){
+        echo "authorized user";
+    });
+});
+
+Route::post('login',[App\Http\Controllers\ApiRegistration::class,'login'])->name('login');
